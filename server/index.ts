@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createServer as createViteServer } from 'vite';
+// import { createServer as createViteServer } from 'vite'; // Moved to dynamic import for production stability
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -333,6 +333,8 @@ if (isProduction) {
   });
 } else {
   // Local development with Vite middleware
+  // Dynamic import to prevent production build issues on Vercel
+  const { createServer: createViteServer } = await import('vite');
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: 'spa',
