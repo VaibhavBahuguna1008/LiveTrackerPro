@@ -14,21 +14,42 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const JWT_SECRET = process.env.JWT_SECRET || 'livetrack_secret_key_123';
 const PORT = 3000;
-
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/livetrackpro';
 
-mongoose.connect(MONGO_URI).then(() => {
-  console.log('Connected to MongoDB via Mongoose');
-}).catch(err => {
-  console.error('MongoDB connection error:', err);
-});
+let isConnected = false;
+async function connectDB() {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(MONGO_URI);
+    isConnected = true;
+    console.log('Connected to MongoDB via Mongoose');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
+  }
+}
 
+// Models
 import User from './src/models/User.js';
 import Trip from './src/models/Trip.js';
 import Anomaly from './src/models/Anomaly.js';
 
 const app = express();
 const httpServer = createServer(app);
+
+// Middleware to ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+  if (req.path.startsWith('/api')) {
+    try {
+      await connectDB();
+      next();
+    } catch (err) {
+      res.status(500).json({ message: 'Database connection failed', error: String(err) });
+    }
+  } else {
+    next();
+  }
+});
 const io = new Server(httpServer, {
   cors: {
     origin: '*',
