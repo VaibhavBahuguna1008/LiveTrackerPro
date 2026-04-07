@@ -3,6 +3,7 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
   --color-brand: #0066FF;
   --color-bg-light: #f4f7f2;
   --color-card-light: #ffffff;

@@ -1356,7 +1356,7 @@ export default function Dashboard({ user, theme, setTheme }: { user: any, theme:
                 <span className="text-[9px] font-black uppercase tracking-wider text-slate-500">{stat.label}</span>
               </div>
               <div className="flex items-baseline gap-1">
-                <span className={`text-xl font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
+                <span className={`text-xl font-black font-display ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
                 <span className="text-[8px] font-bold text-slate-500 uppercase">{stat.unit}</span>
               </div>
             </motion.div>
@@ -1393,7 +1393,7 @@ export default function Dashboard({ user, theme, setTheme }: { user: any, theme:
             >
               <div className="flex items-center gap-2">
                 {stat.icon}
-                <span className={`text-[11px] font-black ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
+                <span className={`text-[11px] font-black font-display ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{stat.value}</span>
                 <span className="text-[7px] font-black text-slate-500 uppercase tracking-tighter">{stat.unit}</span>
               </div>
             </motion.div>

@@ -72,7 +72,7 @@ export default function Signup({ onSignup, theme, setTheme }: { onSignup: (user:
           <div className="bg-blue-600 p-4 rounded-2xl mb-6 shadow-[0_10px_25px_rgba(37,99,235,0.4)]">
             <MapPin className="w-8 h-8 text-white" />
           </div>
-          <h1 className={`text-3xl font-black tracking-tight ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Create Account</h1>
+          <h1 className={`text-3xl font-black tracking-tight font-display ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>Create Account</h1>
           <p className="text-slate-500 mt-2 font-medium">Join Live Tracker Pro ecosystem</p>
         </div>
 
