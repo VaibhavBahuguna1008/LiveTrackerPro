@@ -30,9 +30,9 @@ async function connectDB() {
 }
 
 // Models
-import User from './src/models/User.js';
-import Trip from './src/models/Trip.js';
-import Anomaly from './src/models/Anomaly.js';
+import User from './models/User.js';
+import Trip from './models/Trip.js';
+import Anomaly from './models/Anomaly.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -41,10 +41,16 @@ const httpServer = createServer(app);
 app.use(async (req, res, next) => {
   if (req.path.startsWith('/api')) {
     try {
+      console.log(`Connecting to DB for ${req.method} ${req.path}...`);
       await connectDB();
       next();
     } catch (err) {
-      res.status(500).json({ message: 'Database connection failed', error: String(err) });
+      console.error('CRITICAL DATABASE ERROR:', err);
+      res.status(500).json({ 
+        message: 'Database connection failed', 
+        error: String(err),
+        stack: process.env.NODE_ENV === 'development' ? (err as Error).stack : undefined
+      });
     }
   } else {
     next();
@@ -319,7 +325,7 @@ io.on('connection', (socket) => {
 const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
 
 if (isProduction) {
-  const distPath = path.join(__dirname, 'dist');
+  const distPath = path.join(__dirname, '..', 'dist');
   app.use(express.static(distPath));
   // API routes are handled above. This catch-all is for the frontend.
   app.get(/^(?!\/api).+/, (req, res) => {
