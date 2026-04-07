@@ -1,0 +1,7 @@
+{
+  "name": "LiveTrack Pro",
+  "description": "A full-stack real-time location tracking web application with geofencing, ETA calculation, and an admin dashboard.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

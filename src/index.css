@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #0066FF;
+  --color-bg-light: #f4f7f2;
+  --color-card-light: #ffffff;
+  --color-bg-dark: #0a0a0a;
+  --color-card-dark: #1a1a1a;
+  --animate-spin-slow: spin 3s linear infinite;
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+}
+
+.glass {
+  @apply backdrop-blur-xl bg-white/70 border border-white/20 shadow-xl;
+}
+
+.glass-dark {
+  @apply backdrop-blur-xl bg-black/40 border border-white/10 shadow-2xl;
+}
+
+.leaflet-container {
+  @apply w-full h-full;
+}
+
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  transition: filter 0.5s ease-in-out;
+}
+
+.dark .leaflet-layer,
+.dark .leaflet-control-zoom-in,
+.dark .leaflet-control-zoom-out,
+.dark .leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400/20 rounded-full hover:bg-slate-400/40 transition-colors;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Red theme for anomaly scrollbar if nested */
+.bg-gradient-to-br.from-red-600 .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.bg-gradient-to-br.from-red-600 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 📄 Print Optimizations (PDF Fallback) */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  [data-html2canvas-ignore] {
+    display: none !important;
+  }
+
+  /* Force desktop-like layout in print */
+  #analytics-report {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; }
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; }
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Remove blurs for print performance */
+  * {
+    backdrop-filter: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    border-color: #eee !important;
+  }
+
+  /* Don't break cards across pages */
+  .border {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+/* 🗺️ Leaflet Premium Overrides */
+.leaflet-popup-content-wrapper {
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+
+.leaflet-popup-tip-container {
+  display: none !important;
+}
+
+.leaflet-popup-close-button {
+  display: none !important;
+}
+
+.leaflet-container {
+  font-family: inherit !important;
+}
